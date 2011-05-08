@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "impulse"
   s.version     = Impulse::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Lloyd Pick"]
+  s.email       = ["lloydpick+impulse@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{RubyGem to help make very quick RRDTool graphs}
+  s.description = %q{Ability to make RRDTool graphs with zero thought}
 
   s.rubyforge_project = "impulse"
 
