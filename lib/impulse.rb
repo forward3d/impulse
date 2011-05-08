@@ -1,0 +1,3 @@
+module Impulse
+  # Your code goes here...
+end
