@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Lloyd Pick"]
   s.email       = ["lloydpick+impulse@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/lloydpick/impulse"
   s.summary     = %q{RubyGem to help make very quick RRDTool graphs}
   s.description = %q{Ability to make RRDTool graphs with zero thought}
 
