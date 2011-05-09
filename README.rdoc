@@ -1,0 +1,124 @@
+= impulse
+
+* http://github.com/lloydpick/impulse
+
+== DESCRIPTION:
+
+RubyGem to help generate & maintain RRDTool graphs
+
+== FEATURES/PROBLEMS:
+
+ * Ability to create and push data into RRD files with multiple data sources
+ * Ability to draw graphs based on multiple RRD files with multiple data sources
+
+== SYNOPSIS:
+
+Require and initialize the gem
+
+  require 'impulse'
+  imp = Impulse::Graph.new
+  
+Lets push some data into an RRD file, it will be created if it doesn't exist...
+
+  imp.push("elb_eu_west", 5000)
+  
+We'll now have an RRD file named 'elb_eu_west' and it will contain a data source called 'data'
+
+To draw a graph based on this data...
+
+  imp.draw("elb_eu_west", :hour, { :filename => 'elb_eu_west_hour.png', :title => 'ELB Requests - Last Hour', :vertical => 'Requests' })
+  
+We specify the name of the RRD file, the time duration we want, it can be...
+
+  :hour
+  :day
+  :week
+  :month
+  :year
+  
+...or any value in seconds.
+  
+Then some various other graphical options.
+
+
+If we want to have more than one data source in the RRD file, we can do that too...
+  
+  imp.push("data_in_out", { :in => 50, :out => 20 })
+  
+We will now have a 'data_in_out.rrd' file and it will contain 2 data sources named 'in' and 'out'
+
+To draw a graph with two data sources...
+
+  imp.draw(
+    { 
+      'In' => { :name => "data_in_out", :data => :in, :color => '#000000' },
+      'Out' => { :name => "data_in_out", :data => :out }
+    }, 
+    :hour, 
+    { 
+      :filename => 'data_in_out.png', 
+      :title => 'In/Out - Last Hour', 
+      :vertical => 'Data'
+    }
+  )
+  
+Simply need to specify the different data sources within a hash, since we provide the name of the file we can combine multiple files...
+
+  imp.draw(
+    { 
+      'In' => { :name => "data_in_out", :data => :in, :color => '#000000' },
+      'Out' => { :name => "data_in_out", :data => :out },
+      'Requests' => { :name => "elb_eu_west" }
+    }, 
+    :hour, 
+    { 
+      :filename => 'data_in_out_elb.png', 
+      :title => 'In/Out + ELB - Last Hour', 
+      :vertical => 'Data'
+    }
+  )
+  
+Note that it will attempt to guess as much of the options as it can, as you can see we didn't have to tell it the name of the data source for the 'elb_eu_west' RRD file.
+
+== PARAMS:
+
+Default parameters...
+
+  :filename => 'impuse.png', 
+  :height => 200, 
+  :width => 600, 
+  :title => 'Impuse Graph', 
+  :vertical => '',
+  :legend => ''
+  
+All can be configured on a per graph basis.
+
+
+== INSTALL:
+
+  gem install impulse
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2010 Lloyd Pick
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
