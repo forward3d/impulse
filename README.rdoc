@@ -94,6 +94,12 @@ Default parameters...
 All can be configured on a per graph basis.
 
 
+== QUICK NOTE
+
+Yes, this is hacky as anything, it has no tests and does some stuff in a really bad way.
+
+This is meant as a very dirty first release, feel free to make changes and pull request.
+
 == INSTALL:
 
   gem install impulse
