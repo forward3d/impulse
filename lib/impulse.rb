@@ -28,15 +28,15 @@ module Impulse
         c = 0
         name.each do |k,v|
           v = { :color => '#FF0000', :data => :data }.merge(v)
-          cmd << "DEF:d#{c}=./#{v[:name]}.rrd:#{v[:data].to_s}:MAX"
+          cmd << "DEF:d#{c}=#{v[:name]}.rrd:#{v[:data].to_s}:MAX"
           cmd << "LINE1:d#{c}#{v[:color]}:'#{k}' GPRINT:d#{c}:LAST:\"Last\\:%8.0lf\" GPRINT:d#{c}:MIN:\"	Min\\:%8.0lf\" GPRINT:d#{c}:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:d#{c}:MAX:\"	Max\\:%8.0lf\\n\""
           c += 1
         end
       else
-        cmd << "DEF:average=./#{name}.rrd:data:MAX"
+        cmd << "DEF:average=#{name}.rrd:data:MAX"
         cmd << "LINE1:average#FF0000:'#{params[:legend]}' GPRINT:average:LAST:\"Last\\:%8.0lf\" GPRINT:average:MIN:\"	Min\\:%8.0lf\" GPRINT:average:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:average:MAX:\"	Max\\:%8.0lf\\n\""
       end
-      
+
       system cmd.join(" ")
     end
     
@@ -58,7 +58,7 @@ module Impulse
     end
     
     def push_to_rrd(name, data)
-      unless File.exist?(name + ".rrd")
+      if File.exist?(name + ".rrd")
         puts 'Updating RRD' if @debug
         system "rrdtool update #{name}.rrd #{Time.now.to_i}:#{data}"
       end
