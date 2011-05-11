@@ -18,7 +18,8 @@ module Impulse
         :width => 600, 
         :title => 'Impuse Graph', 
         :vertical => '',
-        :legend => ''
+        :legend => '',
+        :thickness => 1
       }.merge(params)
       
       defaults = "-E -W 'Generated at #{Time.at(Time.now)}' -e now -h #{params[:height]} -w #{params[:width]}"
@@ -29,12 +30,12 @@ module Impulse
         name.each do |k,v|
           v = { :color => '#FF0000', :data => :data }.merge(v)
           cmd << "DEF:d#{c}=#{v[:name]}.rrd:#{v[:data].to_s}:MAX"
-          cmd << "LINE1:d#{c}#{v[:color]}:'#{k}' GPRINT:d#{c}:LAST:\"Last\\:%8.0lf\" GPRINT:d#{c}:MIN:\"	Min\\:%8.0lf\" GPRINT:d#{c}:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:d#{c}:MAX:\"	Max\\:%8.0lf\\n\""
+          cmd << "LINE#{params[:thickness]}:d#{c}#{v[:color]}:'#{k}' GPRINT:d#{c}:LAST:\"Last\\:%8.0lf\" GPRINT:d#{c}:MIN:\"	Min\\:%8.0lf\" GPRINT:d#{c}:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:d#{c}:MAX:\"	Max\\:%8.0lf\\n\""
           c += 1
         end
       else
         cmd << "DEF:average=#{name}.rrd:data:MAX"
-        cmd << "LINE1:average#FF0000:'#{params[:legend]}' GPRINT:average:LAST:\"Last\\:%8.0lf\" GPRINT:average:MIN:\"	Min\\:%8.0lf\" GPRINT:average:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:average:MAX:\"	Max\\:%8.0lf\\n\""
+        cmd << "LINE#{params[:thickness]}:average#FF0000:'#{params[:legend]}' GPRINT:average:LAST:\"Last\\:%8.0lf\" GPRINT:average:MIN:\"	Min\\:%8.0lf\" GPRINT:average:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:average:MAX:\"	Max\\:%8.0lf\\n\""
       end
 
       system cmd.join(" ")
