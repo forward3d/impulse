@@ -1,6 +1,6 @@
 = impulse
 
-* http://github.com/lloydpick/impulse
+* http://github.com/forward/impulse
 
 == DESCRIPTION:
 
