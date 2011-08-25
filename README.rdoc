@@ -82,17 +82,25 @@ Note that it will attempt to guess as much of the options as it can, as you can 
 
 == PARAMS:
 
-Default parameters...
+Default graph parameters for draw()...
 
-  :filename => 'impuse.png', 
+  :filename => 'impulse.png',
+  :relative_rrd_path => '.',
+  :relative_output_path => '.',
   :height => 200, 
   :width => 600, 
-  :title => 'Impuse Graph', 
+  :title => 'Impulse Graph', 
   :vertical => '',
-  :legend => ''
+  :legend => '',
+  :thickness => 1
   
 All can be configured on a per graph basis.
 
+Default plot parameters for push()...
+
+  :relative_path => '.', 
+  
+All can be configured on a per RRD basis.
 
 == QUICK NOTE
 
