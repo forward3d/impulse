@@ -85,8 +85,8 @@ Note that it will attempt to guess as much of the options as it can, as you can 
 Default graph parameters for draw()...
 
   :filename => 'impulse.png',
-  :relative_rrd_path => '.',
-  :relative_output_path => '.',
+  :rrd_path => '.',
+  :output_path => '.',
   :height => 200, 
   :width => 600, 
   :title => 'Impulse Graph', 
@@ -98,7 +98,7 @@ All can be configured on a per graph basis.
 
 Default plot parameters for push()...
 
-  :relative_path => '.', 
+  :rrd_path => '.', 
   
 All can be configured on a per RRD basis.
 
