@@ -102,7 +102,7 @@ Default plot parameters for push()...
   
 All can be configured on a per RRD basis.
 
-== QUICK NOTE
+== QUICK NOTE:
 
 Yes, this is hacky as anything, it has no tests and does some stuff in a really bad way.
 
@@ -111,6 +111,11 @@ This is meant as a very dirty first release, feel free to make changes and pull 
 == INSTALL:
 
   gem install impulse
+  
+== OWNERS/CONTRIBUTORS:
+
+* {Lloyd Pick}[https://github.com/lloydpick]
+* {Ryan Conway}[https://github.com/Rylon]
 
 == LICENSE:
 
