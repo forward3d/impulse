@@ -39,7 +39,7 @@ module Impulse
           c += 1
         end
       else
-        cmd << "DEF:average=#{name}.rrd:data:MAX"
+        cmd << "DEF:average=#{params[:rrd_path]}/#{name}.rrd:data:MAX"
         cmd << "LINE#{params[:thickness]}:average#FF0000:'#{params[:legend]}' GPRINT:average:LAST:\"Last\\:%8.0lf\" GPRINT:average:MIN:\"	Min\\:%8.0lf\" GPRINT:average:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:average:MAX:\"	Max\\:%8.0lf\\n\""
       end
 
