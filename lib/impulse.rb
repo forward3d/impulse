@@ -13,7 +13,7 @@ module Impulse
       create_or_find_rrd(name, datas, params)
       push_to_rrd(name, datas, params)
     end
-    
+
     def draw(name, time_scale = :day, params = {})
       params = { 
         :filename => 'impulse.png',
@@ -24,20 +24,37 @@ module Impulse
         :title => 'Impulse Graph', 
         :vertical => '',
         :legend => '',
-        :thickness => 1
+        :thickness => 1,
+        :sort => false
       }.merge(params)
       
       defaults = "-E -W 'Generated at #{Time.at(Time.now)}' -e now -h #{params[:height]} -w #{params[:width]}"
       cmd = ["rrdtool graph #{params[:output_path]}/#{params[:filename]} -s -#{seconds_for(time_scale)} #{defaults} -t '#{params[:title]}' -v '#{params[:vertical]}'"]
-      
+       
       if name.is_a?(Hash)
+        max_legend_length = name.keys.size > 1 ? name.keys.max {|a,b| a.length <=> b.length }.length : name.keys.first.length
+              
         c = 0
-        name.each do |k,v|
-          v = { :color => '#FF0000', :data => :data }.merge(v)
-          cmd << "DEF:d#{c}=#{params[:rrd_path]}/#{v[:name]}.rrd:#{v[:data].to_s}:MAX"
-          cmd << "LINE#{params[:thickness]}:d#{c}#{v[:color]}:'#{k}' GPRINT:d#{c}:LAST:\"Last\\:%8.0lf\" GPRINT:d#{c}:MIN:\"	Min\\:%8.0lf\" GPRINT:d#{c}:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:d#{c}:MAX:\"	Max\\:%8.0lf\\n\""
-          c += 1
+        
+        if params[:sort]
+          name.keys.sort.each do |k|
+            v = name[k]
+            legend = "%-#{max_legend_length}s" % k
+            v = { :color => '#FF0000', :data => :data }.merge(v)
+            cmd << "DEF:d#{c}=#{params[:rrd_path]}/#{v[:name]}.rrd:#{v[:data].to_s}:MAX"
+            cmd << "LINE#{params[:thickness]}:d#{c}#{v[:color]}:'#{legend}' GPRINT:d#{c}:LAST:\"Last\\:%8.0lf\" GPRINT:d#{c}:MIN:\"	Min\\:%8.0lf\" GPRINT:d#{c}:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:d#{c}:MAX:\"	Max\\:%8.0lf\\n\""
+            c += 1
+          end
+        else
+          name.each do |k,v|
+            legend = "%-#{max_legend_length}s" % k
+            v = { :color => '#FF0000', :data => :data }.merge(v)
+            cmd << "DEF:d#{c}=#{params[:rrd_path]}/#{v[:name]}.rrd:#{v[:data].to_s}:MAX"
+            cmd << "LINE#{params[:thickness]}:d#{c}#{v[:color]}:'#{legend}' GPRINT:d#{c}:LAST:\"Last\\:%8.0lf\" GPRINT:d#{c}:MIN:\"	Min\\:%8.0lf\" GPRINT:d#{c}:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:d#{c}:MAX:\"	Max\\:%8.0lf\\n\""
+            c += 1
+          end
         end
+
       else
         cmd << "DEF:average=#{params[:rrd_path]}/#{name}.rrd:data:MAX"
         cmd << "LINE#{params[:thickness]}:average#FF0000:'#{params[:legend]}' GPRINT:average:LAST:\"Last\\:%8.0lf\" GPRINT:average:MIN:\"	Min\\:%8.0lf\" GPRINT:average:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:average:MAX:\"	Max\\:%8.0lf\\n\""
