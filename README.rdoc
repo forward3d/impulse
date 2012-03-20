@@ -92,7 +92,8 @@ Default graph parameters for draw()...
   :title => 'Impulse Graph', 
   :vertical => '',
   :legend => '',
-  :thickness => 1
+  :thickness => 1,
+  :sort => false
   
 All can be configured on a per graph basis.
 
