@@ -14,7 +14,7 @@ module Impulse
       push_to_rrd(name, datas, params)
     end
 
-    def draw(name, time_scale = :day, params = {})
+    def draw(name, time_scale = :day, params = {}, extra_params = nil)
       params = { 
         :filename => 'impulse.png',
         :rrd_path => '.',
@@ -60,6 +60,7 @@ module Impulse
         cmd << "LINE#{params[:thickness]}:average#FF0000:'#{params[:legend]}' GPRINT:average:LAST:\"Last\\:%8.0lf\" GPRINT:average:MIN:\"	Min\\:%8.0lf\" GPRINT:average:AVERAGE:\"	Avg\\:%8.0lf\" GPRINT:average:MAX:\"	Max\\:%8.0lf\\n\""
       end
 
+      cmd << extra_params unless extra_params.nil?
       system cmd.join(" ")
     end
     
