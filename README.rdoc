@@ -122,7 +122,7 @@ You can pass additional parameters to imp.draw which will be passed along to the
     'VRULE:1332421230#FF00FF:"An event"'
   )
   
-will result in a vertical line at the specified timestamp, in the colour 'pink' labelled as 'An event' will be overlayed onto the drawn graph. Separate multiple parameters with a space.
+will result in a vertical line being overlayed at the specified timestamp, in the colour '#FF00FF' labelled as 'An event'. Separate multiple parameters with a space.
 
 You will need to refer to the rrdtool graph documentation for the available commands you can use with this option.
 
