@@ -103,6 +103,29 @@ Default plot parameters for push()...
   
 All can be configured on a per RRD basis.
 
+== ADDITIONAL PARAMS:
+
+You can pass additional parameters to imp.draw which will be passed along to the 'rrdtool graph' command without modification. Use this to overlay additional data if required. For example:
+
+  imp.draw(
+    { 
+      'In' => { :name => "data_in_out", :data => :in, :color => '#000000' },
+      'Out' => { :name => "data_in_out", :data => :out },
+      'Requests' => { :name => "elb_eu_west" }
+    }, 
+    :hour, 
+    { 
+      :filename => 'data_in_out_elb.png', 
+      :title => 'In/Out + ELB - Last Hour', 
+      :vertical => 'Data'
+    }
+    'VRULE:1332421230#FF00FF:"An event"'
+  )
+  
+will result in a vertical line at the specified timestamp, in the colour 'pink' labelled as 'An event' will be overlayed onto the drawn graph.
+
+You will need to refer to the rrdtool graph documentation for the available commands you can use with this option.
+
 == QUICK NOTE:
 
 Yes, this is hacky as anything, it has no tests and does some stuff in a really bad way.
